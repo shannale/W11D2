@@ -5,7 +5,7 @@ const Autocomplete = ({names}) => {
   const [inputVal, setInputVal] = useState('');
   const [showList, setShowList] = useState(false);
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
 useEffect(() => {
   if (showList) {
@@ -38,8 +38,8 @@ const handleInput = (e) => {
 }
 
 const matches = () => {
-  const { inputVal } = inputVal;
-  const { names } = names;
+  // const { inputVal } = inputVal;
+  // const { names } = names;
   const inputLength = inputVal.length;
   const matches = [];
 
@@ -58,15 +58,15 @@ const matches = () => {
 }
 
 const results = matches().map((result) => {
-  const nodeRef = useRef();
+  // const nodeRef = useRef()
   return (
     <CSSTransition
-      nodeRef={nodeRef}
+      nodeRef={inputRef.current}
       key={result}
       classNames="result"
       timeout={{ enter: 500, exit: 300 }}
     >
-      <li ref={nodeRef} className="nameLi" onClick={selectName}>
+      <li ref={inputRef.current} className="nameLi" onClick={selectName}>
         {result}
       </li>
     </CSSTransition>
@@ -79,7 +79,7 @@ return (
     <div className="auto">
       <input
         placeholder="Search..."
-        ref={inputRef}
+        ref={inputRef.current}
         onChange={handleInput}
         value={inputVal}
         onFocus={() => setShowList(true)}
