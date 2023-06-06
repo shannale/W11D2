@@ -4,19 +4,13 @@ import { toQueryString } from '../utils';
 
 const Weather = () => {
     const [weather, setWeather] = useState(null);
-
-    useEffect(() => {navigator.geolocation?.getCurrentPosition(
-      pollWeather,
-      (err) => console.log(err),
-      { timeout: 10000 }, 
-      );
-    }, [] );
-
-    const pollWeather = async (location) => {
+    console.log(process.env.REACT_APP_WEATHER_API)
+    useEffect(() => {
+      const pollWeather = async (location) => {
         let url = 'http://api.openweathermap.org/data/2.5/weather?';
 
         const apiKey = process.env.REACT_APP_WEATHER_API;
-
+        console.log(apiKey);
         const params = {
             lat: location.coords.latitude,
             lon: location.coords.longitude,
@@ -28,22 +22,27 @@ const Weather = () => {
           const res = await fetch(url);
           if (res.ok) {
             const weather = await res.json();
-            setWeather({ weather });
+            console.log(weather);
+            setWeather(weather);
           }
           else {
             alert ("Check Weather API key!")
           };
         };
 
-        const weather1 = weather;
+      navigator.geolocation?.getCurrentPosition(
+      pollWeather,
+      (err) => console.log(err),
+      { timeout: 10000 }, 
+      );
+    }, [] );
 
         let content = <div className='loading'>loading weather...</div>;
-        
-        if (weather1) {
-        const temp = (weather1.main.temp - 273.15) * 1.8 + 32;
+        if (weather) {
+        const temp = (weather.main.temp - 273.15) * 1.8 + 32;
         content = (
             <div>
-            <p>{weather1.name}</p>
+            <p>{weather.name}</p>
             <p>{temp.toFixed(1)} degrees</p>
             </div>
         );

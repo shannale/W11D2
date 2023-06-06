@@ -41,7 +41,7 @@ const Folder = ({folders}) => {
 
     return(
         <section className="tabs-section">
-        <h1>(=^x^=)</h1>
+        <h1>Tabs</h1>
         <div className='tabs'>
           <Headers
             titles={titles}
